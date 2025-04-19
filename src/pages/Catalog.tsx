@@ -1,4 +1,3 @@
-import { Helmet } from "react-helmet";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ProductCard, { ProductCardProps } from "@/components/ProductCard";
@@ -11,7 +10,7 @@ import {
   SelectTrigger, 
   SelectValue 
 } from "@/components/ui/select";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Search, Filter } from "lucide-react";
 
 const products: ProductCardProps[] = [
@@ -68,78 +67,80 @@ const products: ProductCardProps[] = [
 const Catalog = () => {
   const [searchQuery, setSearchQuery] = useState("");
   
+  useEffect(() => {
+    // Управление мета-тегами без react-helmet
+    document.title = "Каталог пиломатериалов - БРУС МАРКЕТ";
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+      metaDescription.setAttribute("content", "Широкий выбор пиломатериалов для строительства и отделки. Доска, брус, вагонка с доставкой по Москве и области.");
+    }
+  }, []);
+  
   const filteredProducts = products.filter(product => 
     product.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
     product.description.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   return (
-    <>
-      <Helmet>
-        <title>Каталог пиломатериалов - БРУС МАРКЕТ</title>
-        <meta name="description" content="Широкий выбор пиломатериалов для строительства и отделки. Доска, брус, вагонка с доставкой по Москве и области." />
-      </Helmet>
-
-      <div className="flex flex-col min-h-screen">
-        <Header />
-        <main className="flex-1 py-10">
-          <div className="container mx-auto px-4">
-            <h1 className="text-3xl font-bold mb-8">Каталог пиломатериалов</h1>
-            
-            <div className="flex flex-col md:flex-row gap-4 mb-8">
-              <div className="relative flex-1">
-                <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                <Input
-                  placeholder="Поиск по каталогу"
-                  className="pl-10"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                />
-              </div>
-              <div className="flex gap-4">
-                <Select defaultValue="popular">
-                  <SelectTrigger className="w-[180px]">
-                    <SelectValue placeholder="Сортировка" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="popular">По популярности</SelectItem>
-                    <SelectItem value="price_asc">Сначала дешевле</SelectItem>
-                    <SelectItem value="price_desc">Сначала дороже</SelectItem>
-                  </SelectContent>
-                </Select>
-                
-                <Button variant="outline" className="gap-2">
-                  <Filter size={16} />
-                  Фильтры
-                </Button>
-              </div>
+    <div className="flex flex-col min-h-screen">
+      <Header />
+      <main className="flex-1 py-10">
+        <div className="container mx-auto px-4">
+          <h1 className="text-3xl font-bold mb-8">Каталог пиломатериалов</h1>
+          
+          <div className="flex flex-col md:flex-row gap-4 mb-8">
+            <div className="relative flex-1">
+              <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+              <Input
+                placeholder="Поиск по каталогу"
+                className="pl-10"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
             </div>
-            
-            {filteredProducts.length > 0 ? (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                {filteredProducts.map((product) => (
-                  <ProductCard key={product.id} {...product} />
-                ))}
-              </div>
-            ) : (
-              <div className="text-center py-12">
-                <h3 className="text-xl font-medium mb-2">Товары не найдены</h3>
-                <p className="text-muted-foreground mb-6">
-                  Попробуйте изменить параметры поиска или фильтрации
-                </p>
-                <Button 
-                  variant="outline" 
-                  onClick={() => setSearchQuery("")}
-                >
-                  Сбросить поиск
-                </Button>
-              </div>
-            )}
+            <div className="flex gap-4">
+              <Select defaultValue="popular">
+                <SelectTrigger className="w-[180px]">
+                  <SelectValue placeholder="Сортировка" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="popular">По популярности</SelectItem>
+                  <SelectItem value="price_asc">Сначала дешевле</SelectItem>
+                  <SelectItem value="price_desc">Сначала дороже</SelectItem>
+                </SelectContent>
+              </Select>
+              
+              <Button variant="outline" className="gap-2">
+                <Filter size={16} />
+                Фильтры
+              </Button>
+            </div>
           </div>
-        </main>
-        <Footer />
-      </div>
-    </>
+          
+          {filteredProducts.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {filteredProducts.map((product) => (
+                <ProductCard key={product.id} {...product} />
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-12">
+              <h3 className="text-xl font-medium mb-2">Товары не найдены</h3>
+              <p className="text-muted-foreground mb-6">
+                Попробуйте изменить параметры поиска или фильтрации
+              </p>
+              <Button 
+                variant="outline" 
+                onClick={() => setSearchQuery("")}
+              >
+                Сбросить поиск
+              </Button>
+            </div>
+          )}
+        </div>
+      </main>
+      <Footer />
+    </div>
   );
 };
 
