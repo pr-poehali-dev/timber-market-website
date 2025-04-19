@@ -41,9 +41,9 @@ const Header = () => {
         </nav>
 
         <div className="hidden md:flex items-center gap-4">
-          <a href="tel:+74951234567" className="flex items-center gap-2">
+          <a href="tel:+78005553535" className="flex items-center gap-2">
             <PhoneCall size={18} className="text-accent" />
-            <span className="font-medium">+7 (495) 123-45-67</span>
+            <span className="font-medium">8 (800) 555-35-35</span>
           </a>
           <Button className="bg-accent hover:bg-accent/90">Заказать звонок</Button>
         </div>
@@ -94,9 +94,9 @@ const Header = () => {
               Контакты
             </Link>
             <div className="pt-2 border-t">
-              <a href="tel:+74951234567" className="flex items-center gap-2 py-2">
+              <a href="tel:+78005553535" className="flex items-center gap-2 py-2">
                 <PhoneCall size={18} className="text-accent" />
-                <span className="font-medium">+7 (495) 123-45-67</span>
+                <span className="font-medium">8 (800) 555-35-35</span>
               </a>
               <Button className="w-full mt-2 bg-accent hover:bg-accent/90">Заказать звонок</Button>
             </div>
